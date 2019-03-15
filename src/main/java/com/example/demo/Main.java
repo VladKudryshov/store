@@ -28,26 +28,30 @@ public class Main {
         instagram.setup();
         try {
             InstagramLoginResult login = instagram.login();
-            InstagramSearchUsernameResult userResult = instagram.sendRequest(new InstagramSearchUsernameRequest("4karapuzika.by"));
-            HashSet<Object> objects = Sets.newHashSet();
-            String page = StringUtils.EMPTY;
-            while (true) {
-                String s = getFollowers(instagram, userResult.getUser().getPk() ,page);
-
-                ObjectMapper objectMapper = new ObjectMapper();
-                PageUser pageUser = objectMapper.readValue(s, PageUser.class);
-                objects.addAll((ArrayList)pageUser.getUsers());
-                if (StringUtils.isBlank(pageUser.getNext_max_id())) {
-                    break;
-                }
-                page = pageUser.getNext_max_id();
-                Thread.sleep(1000);
-
-            }
+            getFollowersByUserName(instagram);
             int a = 2;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void getFollowersByUserName(Instagram4j instagram) throws IOException, InterruptedException {
+        HashSet<Object> objects = Sets.newHashSet();
+        InstagramSearchUsernameResult userResult = instagram.sendRequest(new InstagramSearchUsernameRequest("4karapuzika.by"));
+        String page = StringUtils.EMPTY;
+        while (true) {
+            String s = getFollowers(instagram, userResult.getUser().getPk() ,page);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            PageUser pageUser = objectMapper.readValue(s, PageUser.class);
+            objects.addAll((ArrayList)pageUser.getUsers());
+            if (StringUtils.isBlank(pageUser.getNext_max_id())) {
+                break;
+            }
+            page = pageUser.getNext_max_id();
+            Thread.sleep(1000);
+        }
+        return;
     }
 
     private static String getFollowers(Instagram4j instagram,Long id, String nextPage) throws IOException {
@@ -64,9 +68,9 @@ public class Main {
         get1.addHeader("User-Agent", InstagramConstants.USER_AGENT);
 
         HttpResponse response = instagram.getClient().execute(get1);
-        instagram.setLastResponse(response);
 
         String content = EntityUtils.toString(response.getEntity());
+        instagram.setLastResponse(response);
 
         get1.releaseConnection();
 

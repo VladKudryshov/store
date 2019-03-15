@@ -22,7 +22,6 @@ public class TokenConfig {
     public String buildToken(UserEntity entity, long expirationTime, String type) {
         return Jwts.builder().setId(entity.getId())
                 .setSubject(entity.getEmail())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .setHeaderParam("role", entity.getRole().toString())
                 .setHeaderParam("type", type)
                 .signWith(SignatureAlgorithm.HS512, getSecret()).compact();
