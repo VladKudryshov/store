@@ -9,6 +9,6 @@ public interface IInstagramService {
 
     BasicCookieStore authService(String userName, String password);
 
-    String getFollowers(String username) throws IOException;
+    String getFollowers(String username) throws IOException, ClassNotFoundException;
 
 }

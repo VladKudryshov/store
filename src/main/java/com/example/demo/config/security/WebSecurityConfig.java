@@ -4,6 +4,7 @@ import com.example.demo.config.security.filters.JWTAuthenticationFilter;
 import com.example.demo.config.security.filters.JWTLoginFilter;
 import com.example.demo.config.security.filters.JWTRefreshFilter;
 import com.example.demo.dao.IUserDAO;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,10 @@ import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -51,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors()
                     .and()
                     .csrf().disable().authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
+                    .antMatchers("/api/users/login").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/users/registration").permitAll()
                     .antMatchers(HttpMethod.GET, "/api/users/token").authenticated()
                     .antMatchers(HttpMethod.GET, "/api/products/**").permitAll()
@@ -63,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .addFilterBefore(new JWTLoginFilter("/api/users/login", authenticationManager(), authenticationService, userRepo),
                             JWTRefreshFilter.class);
         } else {
+
             http
                     .cors()
                     .and()
@@ -72,12 +76,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Accept-Charset", "Authorization", "Origin", "Accept", "User-Agent"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

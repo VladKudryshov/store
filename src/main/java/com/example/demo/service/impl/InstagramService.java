@@ -76,6 +76,12 @@ public class InstagramService implements IInstagramService {
                 loginRequest.setPayload(payload);
                 try {
                     loginRequest.execute(csrfTokenRequest.getCookieStore());
+
+                    InstaCookies cookies = new InstaCookies();
+                    cookies.setUserId(userService.getAuthenticatedUser().getId());
+                    cookies.setCookies(loginRequest.getCookieStore());
+                    instaDAO.save(cookies);
+
                     int a = 2;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -108,11 +114,7 @@ public class InstagramService implements IInstagramService {
 
             String content = EntityUtils.toString(response.getEntity());
 
-            InstaCookies cookies = new InstaCookies();
-            cookies.setUserId(userService.getAuthenticatedUser().getId());
-            BasicCookieStore cookieStore = (BasicCookieStore) defaultHttpClient.getCookieStore();
-            cookies.setCookies(cookieStore);
-            instaDAO.save(cookies);
+
 
             getString("kudr9tov");
 
@@ -122,8 +124,8 @@ public class InstagramService implements IInstagramService {
     }
 
     @Override
-    public String getFollowers(String username) throws IOException {
-
+    public String getFollowers(String username) throws IOException, ClassNotFoundException {
+        getString(username);
         return null;
     }
 

@@ -21,6 +21,7 @@ public class DemoApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedHeaders("*")
+                        .allowedMethods("*")
                         .allowCredentials(true)
                         .allowedOrigins("*");
             }

@@ -3,6 +3,7 @@ package com.example.demo.config.security.filters;
 import com.example.demo.dao.IUserDAO;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.config.security.TokenAuthenticationService;
+import com.example.demo.models.user.UserLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -39,8 +40,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
-        UserEntity user = jsonMapper.readValue(req.getInputStream(), UserEntity.class);
-        String email = user.getEmail();
+        UserLogin user = jsonMapper.readValue(req.getInputStream(), UserLogin.class);
+        String email = user.getLogin();
         String pass = user.getPassword();
 
         if (Objects.isNull(email)) {

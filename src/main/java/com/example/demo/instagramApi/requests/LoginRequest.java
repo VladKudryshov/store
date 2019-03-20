@@ -33,7 +33,7 @@ public class LoginRequest extends AbstractPostRequest<SelfUser> {
         JsonObject user = jsonObject.getAsJsonObject("logged_in_user");
 
         SelfUser selfUser = new SelfUser();
-        selfUser.setId(user.get("pk").getAsLong());
+//        selfUser.setId(user.get("pk").getAsLong());
         return null;
     }
 }

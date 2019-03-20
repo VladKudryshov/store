@@ -1,5 +1,7 @@
 package com.example.demo.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +14,7 @@ public class UserEntity {
     @Id
     private String id;
     private String email;
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -49,6 +52,7 @@ public class UserEntity {
         this.role = role;
     }
 
+    @JsonIgnore
     public Date getLastLogin() {
         return lastLogin;
     }

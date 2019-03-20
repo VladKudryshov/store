@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,6 +57,16 @@ public class UserService implements IUserService {
         } catch (UserNotAuthenticated e) {
             return userInfoDAO.save(userInfo);
         }
+    }
+
+    @Override
+    public List<UserEntity> getUsers() {
+        return userDAO.findAll();
+    }
+
+    @Override
+    public UserInfo getUserInfoById(String id) {
+        return userInfoDAO.findByUserId(id).orElseThrow(UserNotFoundException::new);
     }
 
     public UserEntity getUserByEmail(String email) {

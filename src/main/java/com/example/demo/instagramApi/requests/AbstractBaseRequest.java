@@ -25,6 +25,8 @@ public abstract class AbstractBaseRequest<T> {
 
     protected abstract String getBody() throws Exception;
 
+
+
     public abstract T execute(BasicCookieStore userCookies) throws Exception;
 
     public abstract T parseResult(int resultCode, String content);

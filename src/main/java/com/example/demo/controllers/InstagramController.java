@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.service.IInstagramService;
 import org.apache.http.impl.client.BasicCookieStore;
+import org.bytedeco.javacv.FrameFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class InstagramController {
     public String getUserName(@PathVariable String username) {
         try {
             return instragramService.getFollowers(username);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
