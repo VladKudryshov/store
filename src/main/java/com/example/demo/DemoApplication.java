@@ -1,7 +1,10 @@
 package com.example.demo;
 
+import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -24,6 +27,16 @@ public class DemoApplication {
                         .allowedMethods("*")
                         .allowCredentials(true)
                         .allowedOrigins("*");
+            }
+        };
+    }
+
+    @Bean
+    public EmbeddedServletContainerCustomizer customizer() {
+        return container -> {
+            if (container instanceof TomcatEmbeddedServletContainerFactory) {
+                TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
+                tomcat.addContextCustomizers(context -> context.setCookieProcessor(new LegacyCookieProcessor()));
             }
         };
     }

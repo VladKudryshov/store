@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -25,6 +26,11 @@ public class ProductController {
             return productService.getProductByCategory(category, new PageRequest(page, size));
         }
         return productService.getProducts(new PageRequest(page, size));
+    }
+
+    @RequestMapping(value = "/cart", method = RequestMethod.POST)
+    public List<Product> getProductByIds(@RequestBody Set<Integer> ids) {
+        return productService.getProductsByIds(ids);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

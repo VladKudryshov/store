@@ -5,6 +5,7 @@ import com.example.demo.exceptions.product.ProductAlreadyExistException;
 import com.example.demo.exceptions.product.ProductNotFoundException;
 import com.example.demo.models.products.Product;
 import com.example.demo.service.IProductService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,5 +73,10 @@ public class ProductService implements IProductService {
     @Override
     public Page<Product> getProductByCategory(String category, Pageable pageable) {
         return productDAO.findByCategory(category, pageable);
+    }
+
+    @Override
+    public List<Product> getProductsByIds(Set<Integer> ids) {
+        return productDAO.findByIds(ids).orElse(Lists.newArrayList());
     }
 }

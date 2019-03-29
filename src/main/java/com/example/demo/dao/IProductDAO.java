@@ -19,7 +19,7 @@ public interface IProductDAO extends JpaRepository<Product, Integer> {
     void deleteAllById(Set<Integer> ids);
 
     @Query(value = "SELECT * FROM product WHERE id IN (:ids)", nativeQuery = true)
-    Optional<List<Product>> findByIds(@Param("ids") Set<String> ids);
+    Optional<List<Product>> findByIds(@Param("ids") Set<Integer> ids);
 
     @Query(value = "SELECT * FROM product WHERE name IN (:names)", nativeQuery = true)
     Optional<List<Product>> findByNames(@Param("names") Set<String> names);

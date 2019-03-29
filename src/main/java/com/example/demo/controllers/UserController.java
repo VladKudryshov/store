@@ -22,7 +22,7 @@ public class UserController {
         userService.createUser(userEntity);
     }
 
-    @RequestMapping(value = "login")
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public void login(@RequestBody UserLogin userEntity) {
         //IGNORE. PROCESSING WITH FILTER
     }
@@ -46,5 +46,12 @@ public class UserController {
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public UserEntity getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
+    }
+
+
 
 }
