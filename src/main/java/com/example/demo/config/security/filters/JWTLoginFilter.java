@@ -3,6 +3,7 @@ package com.example.demo.config.security.filters;
 import com.example.demo.dao.IUserDAO;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.config.security.TokenAuthenticationService;
+import com.example.demo.models.user.UserLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -39,8 +41,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
-        UserEntity user = jsonMapper.readValue(req.getInputStream(), UserEntity.class);
-        String email = user.getEmail();
+        UserLogin user = jsonMapper.readValue(req.getInputStream(), UserLogin.class);
+        String email = user.getLogin();
         String pass = user.getPassword();
 
         if (Objects.isNull(email)) {
@@ -72,6 +74,8 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                 res.setCharacterEncoding("UTF-8");
                 res.getWriter().print(new ObjectMapper().writeValueAsString(user));
                 res.setStatus(HttpStatus.OK.value());
+                Cookie token = new Cookie("token", authenticationService.getToken(user));
+                res.addCookie(token);
                 authenticationService.addAccessToken(res, user);
                 authenticationService.addRefreshToken(res, user);
                 user.setLastLogin(new Date());

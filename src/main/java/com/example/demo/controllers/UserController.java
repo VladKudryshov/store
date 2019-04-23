@@ -1,15 +1,17 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.user.Address;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.models.user.UserInfo;
+import com.example.demo.models.user.UserLogin;
 import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
-@RequestMapping(value = "users")
+@RequestMapping(value = "api/users")
 public class UserController {
 
     @Autowired
@@ -21,23 +23,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(@RequestBody UserEntity userEntity) {
-        //FOR SWAGGER
-    }
-
-    @RequestMapping(value = "address", method = RequestMethod.POST)
-    public void addAddress(@RequestBody Address address) {
-        userService.addAddress(address);
-    }
-
-    @RequestMapping(value = "address/{id}", method = RequestMethod.PUT)
-    public void changeAddress(@PathVariable String id, @RequestBody Address address) {
-        userService.changeAddress(id, address);
-    }
-
-    @RequestMapping(value = "address/{id}", method = RequestMethod.DELETE)
-    public void deleteAddress(@PathVariable String id) {
-        userService.deleteAddress(id);
+    public void login(@RequestBody UserLogin userEntity) {
+        //IGNORE. PROCESSING WITH FILTER
     }
 
     @RequestMapping(value = "info", method = RequestMethod.POST)
@@ -49,5 +36,22 @@ public class UserController {
     public UserInfo getUserInfo() {
         return userService.getUserInfo();
     }
+
+    @RequestMapping(value = "info/{id}", method = RequestMethod.GET)
+    public UserInfo getUserInfo(@PathVariable String id) {
+        return userService.getUserInfoById(id);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public List<UserEntity> getUsers() {
+        return userService.getUsers();
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public UserEntity getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
+    }
+
+
 
 }

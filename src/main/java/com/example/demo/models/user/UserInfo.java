@@ -1,31 +1,38 @@
 package com.example.demo.models.user;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Date;
 
-@Document(collection = "userInfo")
+@Entity
 public class UserInfo {
+
     @Id
-    private String id;
-    private String userUID;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
+    private String userId;
     private String firstName;
     private String secondName;
-    private String phone;
+    private String sex;
+    private Date birthday;
+    private Long phone;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getUserUID() {
-        return userUID;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserUID(String userUID) {
-        this.userUID = userUID;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -44,11 +51,27 @@ public class UserInfo {
         this.secondName = secondName;
     }
 
-    public String getPhone() {
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 }

@@ -24,14 +24,14 @@ public class ProjectUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            UserEntity entity = userService.getUserByEmail(userName);
+            UserEntity entity = userService.getUserByEmail(email);
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(entity.getRole().toString()));
             return new User(entity.getEmail(), entity.getPassword(), authorities);
         } catch (Exception e) {
-            throw new UsernameNotFoundException(userName);
+            throw new UsernameNotFoundException(email);
         }
     }
 

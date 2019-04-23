@@ -1,9 +1,10 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.IAddressDAO;
 import com.example.demo.dao.IUserDAO;
 import com.example.demo.dao.IUserInfoDAO;
-import com.example.demo.models.user.Address;
+import com.example.demo.exceptions.user.UserAlreadyExistException;
+import com.example.demo.exceptions.user.UserNotAuthenticated;
+import com.example.demo.exceptions.user.UserNotFoundException;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.models.user.UserInfo;
 import com.example.demo.service.IUserService;
@@ -12,7 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -21,58 +23,63 @@ public class UserService implements IUserService {
     private IUserDAO userDAO;
 
     @Autowired
-    private IAddressDAO addressDAO;
-
-    @Autowired
     private IUserInfoDAO userInfoDAO;
 
     @Override
     public void createUser(UserEntity userEntity) {
+        Optional<UserEntity> user = userDAO.findByEmail(userEntity.getEmail());
+        if (user.isPresent()) {
+            throw new UserAlreadyExistException();
+        }
         userEntity.setId(DigestUtils.md5Hex(userEntity.getEmail()));
         userEntity.setPassword(DigestUtils.md5Hex(userEntity.getPassword()));
         userDAO.save(userEntity);
     }
 
-    @Override
-    public Address addAddress(Address address) {
-        return addressDAO.save(address);
-    }
-
-    @Override
-    public Address changeAddress(String id, Address address) {
-        Address oldAddress = addressDAO.findOne(id);
-        if (Objects.nonNull(oldAddress)) {
-            return addressDAO.save(address);
-        }
-        throw new RuntimeException();
-    }
-
     public UserInfo saveOrUpdateUserInfo(UserInfo userInfo) {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserInfo byUserUID = userInfoDAO.findByUserUID(name);
-        if(Objects.nonNull(byUserUID)){
-            userInfo.setId(byUserUID.getId());
-        }
-        userInfo.setUserUID(name);
+        UserEntity authenticatedUser = getAuthenticatedUser();
+        String userId = authenticatedUser.getId();
+        userInfoDAO.findByUserId(userId).ifPresent(f -> userInfo.setId(f.getId()));
+        userInfo.setUserId(userId);
         return userInfoDAO.save(userInfo);
     }
 
     public UserInfo getUserInfo() {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userInfoDAO.findByUserUID(name);
+        UserEntity authenticatedUser = getAuthenticatedUser();
+        return userInfoDAO.findByUserId(authenticatedUser.getId()).orElse(new UserInfo());
     }
 
-
     @Override
-    public void deleteAddress(String id) {
-        Address address = addressDAO.findOne(id);
-        if (Objects.nonNull(address)){
-            addressDAO.delete(address);
+    public UserInfo createUserInfo(UserInfo userInfo) {
+        try {
+            getAuthenticatedUser();
+            return getUserInfo();
+        } catch (UserNotAuthenticated e) {
+            return userInfoDAO.save(userInfo);
         }
     }
 
-    public UserEntity getUserByEmail(String email) {
-        return userDAO.findByEmail(email).orElseThrow(RuntimeException::new);
+    @Override
+    public List<UserEntity> getUsers() {
+        return userDAO.findAll();
     }
 
+    @Override
+    public UserInfo getUserInfoById(String id) {
+        return userInfoDAO.findByUserId(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public UserEntity getUserById(String id) {
+        return userDAO.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    public UserEntity getUserByEmail(String email) {
+        return userDAO.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
+    public UserEntity getAuthenticatedUser() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userDAO.findById(userId).orElseThrow(UserNotAuthenticated::new);
+    }
 }

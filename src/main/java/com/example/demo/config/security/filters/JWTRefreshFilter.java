@@ -1,7 +1,6 @@
 package com.example.demo.config.security.filters;
 
 import com.example.demo.dao.IUserDAO;
-import com.example.demo.exceptions.UserAlreadyExistException;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.config.security.TokenAuthenticationService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -43,7 +42,7 @@ public class JWTRefreshFilter extends GenericFilterBean {
         if (requestMatcher.matches((HttpServletRequest) request)) {
             try {
                 Authentication authentication = authenticationService.getRefreshAuthentication(request);
-                UserEntity entity = userRepo.findById(authentication.getPrincipal().toString()).orElseThrow(UserAlreadyExistException::new);
+                UserEntity entity = new UserEntity();
                 authenticationService.addAccessToken((HttpServletResponse) response, entity);
             } catch (ExpiredJwtException e) {
                 LOGGER.debug("JWT has been expired");

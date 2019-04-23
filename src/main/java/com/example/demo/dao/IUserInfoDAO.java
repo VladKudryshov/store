@@ -1,8 +1,10 @@
 package com.example.demo.dao;
 
 import com.example.demo.models.user.UserInfo;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUserInfoDAO extends MongoRepository<UserInfo, String> {
-    UserInfo findByUserUID(String userUID);
+import java.util.Optional;
+
+public interface IUserInfoDAO extends JpaRepository<UserInfo, String> {
+    Optional<UserInfo > findByUserId(String userId);
 }

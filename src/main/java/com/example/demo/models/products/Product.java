@@ -1,23 +1,29 @@
 package com.example.demo.models.products;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "products")
+import com.example.demo.exceptions.product.InvalidProductException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Product {
     @Id
-    private String id;
-    @Indexed(unique=true)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    private Integer id;
     private String name;
     private String category;
     private Double price;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -43,5 +49,10 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public void validate() {
+        if(StringUtils.isBlank(name)) throw new InvalidProductException("Invalid name");
+        if(price < 0) throw new InvalidProductException("Invalid price");
     }
 }

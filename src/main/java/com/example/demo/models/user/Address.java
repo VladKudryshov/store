@@ -1,37 +1,39 @@
 package com.example.demo.models.user;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.example.demo.exceptions.address.InvalidAddressException;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Objects;
 
-@Document(collection = "addresses")
+@Entity
 public class Address {
     @Id
-    private String id;
-    private String userUID;
-    @NotNull
+    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    private Integer id;
+    private String userId;
     private String city;
-    @NotNull
     private String street;
-    @NotNull
     private String house;
     private String flat;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getUserUID() {
-        return userUID;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserUID(String userUID) {
-        this.userUID = userUID;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getCity() {
@@ -64,5 +66,27 @@ public class Address {
 
     public void setFlat(String flat) {
         this.flat = flat;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(city, address.city) &&
+                Objects.equals(street, address.street) &&
+                Objects.equals(house, address.house) &&
+                Objects.equals(flat, address.flat);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(city, street, house, flat);
+    }
+
+    public void validate() {
+        if(StringUtils.isBlank(city)) throw new InvalidAddressException("Invalid city value");
+        if(StringUtils.isBlank(street)) throw new InvalidAddressException("Invalid street value");
+        if(StringUtils.isBlank(house)) throw new InvalidAddressException("Invalid house value");
     }
 }
