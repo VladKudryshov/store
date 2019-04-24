@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ParameterBuilder;
@@ -11,7 +12,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -28,7 +28,7 @@ public class SwaggerConfig {
     }
 
     private List<Parameter> headerParams() {
-        List<Parameter> list =  new ArrayList<Parameter>();
+        List<Parameter> list = Lists.newArrayList();
         Parameter param = new ParameterBuilder()
                 .name("Authorization")
                 .description("Authorization Token")

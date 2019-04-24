@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "booking")
 public class Order {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     @OneToOne(fetch = FetchType.EAGER)
     @MapsId

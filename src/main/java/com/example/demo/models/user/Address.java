@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 public class Address {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private String userId;
     private String city;

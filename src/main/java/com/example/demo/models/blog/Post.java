@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Post{
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private String title;
     private String content;

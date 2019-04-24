@@ -10,7 +10,7 @@ import java.util.Date;
 public class UserInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String userId;
     private String firstName;
