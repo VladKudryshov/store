@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "insta_cookies")
 public class InstaCookies {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String userId;
     private BasicCookieStore cookies;
