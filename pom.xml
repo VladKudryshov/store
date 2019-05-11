@@ -88,8 +88,6 @@
 			<version>2.9.2</version>
 		</dependency>
 
-
-		<!--DATABASE-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -97,11 +95,10 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<groupId>org.brunocvcunha.instagram4j</groupId>
+			<artifactId>instagram4j</artifactId>
+			<version>1.8</version>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>

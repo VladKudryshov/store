@@ -25,10 +25,6 @@ public class TokenAuthenticationService {
         res.addHeader(Tokens.ACCESS_TOKEN.getHeader(), TokenConfig.TOKEN_PREFIX + " " + tokenConfig.buildToken(entity, tokenConfig.getAccessTokenExpirationTime(), Tokens.ACCESS_TOKEN.getType()));
     }
 
-    public String getToken(UserEntity entity) {
-        return TokenConfig.TOKEN_PREFIX + " " + tokenConfig.buildToken(entity, tokenConfig.getAccessTokenExpirationTime(), Tokens.ACCESS_TOKEN.getType());
-    }
-
     public void addRefreshToken(HttpServletResponse res, UserEntity entity) {
         res.addHeader(Tokens.REFRESH_TOKEN.getHeader(), TokenConfig.TOKEN_PREFIX + " " + tokenConfig.buildToken(entity, tokenConfig.getRefreshTokenExpirationTime(), Tokens.REFRESH_TOKEN.getType()));
     }

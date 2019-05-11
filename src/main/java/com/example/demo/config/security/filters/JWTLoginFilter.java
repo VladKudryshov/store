@@ -18,7 +18,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -74,8 +73,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                 res.setCharacterEncoding("UTF-8");
                 res.getWriter().print(new ObjectMapper().writeValueAsString(user));
                 res.setStatus(HttpStatus.OK.value());
-                Cookie token = new Cookie("token", authenticationService.getToken(user));
-                res.addCookie(token);
                 authenticationService.addAccessToken(res, user);
                 authenticationService.addRefreshToken(res, user);
                 user.setLastLogin(new Date());

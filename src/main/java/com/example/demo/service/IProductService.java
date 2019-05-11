@@ -27,6 +27,4 @@ public interface IProductService {
     void deleteByIds(Set<Integer> ids);
 
     Page<Product> getProductByCategory(String category, Pageable pageable);
-
-    List<Product> getProductsByIds(Set<Integer> ids);
 }

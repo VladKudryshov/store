@@ -69,11 +69,6 @@ public class UserService implements IUserService {
         return userInfoDAO.findByUserId(id).orElseThrow(UserNotFoundException::new);
     }
 
-    @Override
-    public UserEntity getUserById(String id) {
-        return userDAO.findById(id).orElseThrow(UserNotFoundException::new);
-    }
-
     public UserEntity getUserByEmail(String email) {
         return userDAO.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }

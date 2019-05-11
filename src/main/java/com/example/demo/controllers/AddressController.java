@@ -16,22 +16,22 @@ public class AddressController {
     @Autowired
     private IAddressService addressService;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "address", method = RequestMethod.POST)
     public void addAddress(@RequestBody Address address) {
         addressService.addAddressToUser(address);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "address", method = RequestMethod.GET)
     public List<Address> getAddresses() {
         return addressService.getAddresses();
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
+    @RequestMapping(value = "address", method = RequestMethod.PUT)
     public void changeAddress(@RequestBody Address address) {
         addressService.changeAddress(address);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "address/{id}", method = RequestMethod.DELETE)
     public void deleteAddress(@PathVariable Integer id) {
         addressService.deleteAddress(id);
     }
