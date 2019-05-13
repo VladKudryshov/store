@@ -12,18 +12,26 @@ import com.example.demo.models.insta.InstaFiles;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.service.IInstagramService;
 import com.example.demo.service.IUserService;
+import com.example.demo.utils.XLSUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
+import static org.apache.xmlbeans.SchemaTypeLoaderException.IO_EXCEPTION;
 
 @Service
 public class InstagramService implements IInstagramService {
@@ -101,7 +109,19 @@ public class InstagramService implements IInstagramService {
 
     public List<ReportResponse> getReport(String mediaId, String userId) throws Exception {
 
-        InstaFiles instaFiles = new InstaFiles();
+        try (SXSSFWorkbook resultWorkbook = new SXSSFWorkbook(null, 500)) {
+            Sheet report = XLSUtils.createSheet(
+                    resultWorkbook,
+                    "report",
+                    new String[]{"Asd"});
+            XLSUtils.writeRow(report, new String[]{"Asd"});
+            resultWorkbook.write(new FileOutputStream("FileReport"+System.currentTimeMillis()+".xlsx"));
+        } catch (IOException e) {
+            System.out.println("Can't save to file");
+        }
+
+
+        /*InstaFiles instaFiles = new InstaFiles();
         instaFiles.setFilename("File" + System.currentTimeMillis());
         instaFiles.setUserId(userService.getAuthenticatedUser().getId());
         instaFiles.setStatus("Pending");
@@ -153,7 +173,10 @@ public class InstagramService implements IInstagramService {
         save.setStatus("Done");
         instaFilesDAO.save(save);
 
-        return reports;
+
+
+*/
+        return Lists.newArrayList();
     }
 
     @Override
