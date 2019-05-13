@@ -12,6 +12,7 @@ public class User {
     private Boolean is_private;
     private Integer follower_count;
     private Integer following_count;
+    private String profile_pic_url;
 
     public Long getPk() {
         return pk;
@@ -59,6 +60,14 @@ public class User {
 
     public void setFollowing_count(Integer following_count) {
         this.following_count = following_count;
+    }
+
+    public String getProfile_pic_url() {
+        return profile_pic_url;
+    }
+
+    public void setProfile_pic_url(String profile_pic_url) {
+        this.profile_pic_url = profile_pic_url;
     }
 
     @Override
