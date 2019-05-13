@@ -22,7 +22,7 @@ public class UserController {
         userService.createUser(userEntity);
     }
 
-    @RequestMapping(value = "login")
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public void login(@RequestBody UserLogin userEntity) {
         //IGNORE. PROCESSING WITH FILTER
     }

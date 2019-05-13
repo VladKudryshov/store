@@ -9,10 +9,8 @@ import java.util.Date;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String email;
-    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
