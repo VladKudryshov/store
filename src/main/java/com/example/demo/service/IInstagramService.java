@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.instagramApi.models.User;
 import com.example.demo.instagramApi.models.response.MediaResponse;
 import com.example.demo.instagramApi.models.response.ReportResponse;
+import com.example.demo.models.insta.InstaFiles;
 import org.apache.http.impl.client.BasicCookieStore;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface IInstagramService {
 
     List<ReportResponse> getReport(String mediaId, String userId) throws Exception;
 
+    List<InstaFiles> getReports();
 }

@@ -1,12 +1,15 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.InstaDAO;
+import com.example.demo.dao.InstaFilesDAO;
 import com.example.demo.instagramApi.models.Comment;
 import com.example.demo.instagramApi.models.InstagramPayload;
 import com.example.demo.instagramApi.models.User;
 import com.example.demo.instagramApi.models.response.*;
 import com.example.demo.instagramApi.requests.*;
 import com.example.demo.models.insta.InstaCookies;
+import com.example.demo.models.insta.InstaFiles;
+import com.example.demo.models.user.UserEntity;
 import com.example.demo.service.IInstagramService;
 import com.example.demo.service.IUserService;
 import com.google.common.collect.Lists;
@@ -30,6 +33,10 @@ public class InstagramService implements IInstagramService {
 
     @Autowired
     InstaDAO instaDAO;
+
+    @Autowired
+    InstaFilesDAO instaFilesDAO;
+
 
 
     @Override
@@ -93,6 +100,13 @@ public class InstagramService implements IInstagramService {
     }
 
     public List<ReportResponse> getReport(String mediaId, String userId) throws Exception {
+
+        InstaFiles instaFiles = new InstaFiles();
+        instaFiles.setFilename("File" + System.currentTimeMillis());
+        instaFiles.setUserId(userService.getAuthenticatedUser().getId());
+        instaFiles.setStatus("Pending");
+        InstaFiles save = instaFilesDAO.save(instaFiles);
+
         Set<User> followers = Sets.newConcurrentHashSet();
         Set<User> likers = Sets.newConcurrentHashSet();
         Set<Comment> comments = Sets.newConcurrentHashSet();
@@ -136,7 +150,15 @@ public class InstagramService implements IInstagramService {
             }
         });
 
+        save.setStatus("Done");
+        instaFilesDAO.save(save);
+
         return reports;
+    }
+
+    @Override
+    public List<InstaFiles> getReports() {
+        return instaFilesDAO.findByUserId(userService.getAuthenticatedUser().getId());
     }
 
     private LikersResponse getLikersMedia(String mediaId) throws Exception {

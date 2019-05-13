@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.instagramApi.models.User;
 import com.example.demo.instagramApi.models.response.MediaResponse;
 import com.example.demo.instagramApi.models.response.ReportResponse;
+import com.example.demo.models.insta.InstaFiles;
 import com.example.demo.service.IInstagramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +48,15 @@ public class InstagramController {
     public List<ReportResponse> getReport(@RequestParam String userId) {
         try {
             return instragramService.getReport("2032713312453778187_10212391882", userId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "reports", method = RequestMethod.GET)
+    public List<InstaFiles> getReport() {
+        try {
+            return instragramService.getReports();
         } catch (Exception e) {
             return null;
         }
