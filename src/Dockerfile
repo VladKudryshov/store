@@ -2,7 +2,7 @@ FROM java:8
 
 WORKDIR /opt/server
 
-ADD target/sem-platform-admin.jar /opt/server/demo-0.0.1-SNAPSHOT.jar
+ADD target/demo-0.0.1-SNAPSHOT.jar /opt/server/demo-0.0.1-SNAPSHOT.jar
 
 ENV DB_CONNECTION=jdbc:postgresql://databasehost/postgres
 ENV DB_USER=postgres
