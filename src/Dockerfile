@@ -1,7 +1,8 @@
 FROM java:8
-COPY demo-0.0.1-SNAPSHOT.jar /apps/order-back/
-WORKDIR /apps/spring_app
 
+WORKDIR /opt/server
+
+ADD target/sem-platform-admin.jar /opt/server/demo-0.0.1-SNAPSHOT.jar
 
 ENV DB_CONNECTION=jdbc:postgresql://databasehost/postgres
 ENV DB_USER=postgres
