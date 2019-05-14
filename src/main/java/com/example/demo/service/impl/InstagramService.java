@@ -169,7 +169,7 @@ public class InstagramService implements IInstagramService {
         FTPUtils.share(new File(pathname));
 
         save.setStatus("Done");
-        save.setUrl("84.201.155.169/" + pathname);
+        save.setUrl("84.201.155.169/reports" + pathname);
         instaFilesDAO.save(save);
 
         return Lists.newArrayList();
@@ -177,7 +177,7 @@ public class InstagramService implements IInstagramService {
 
     @Override
     public List<InstaFiles> getReports() {
-        return instaFilesDAO.findByUserId(userService.getAuthenticatedUser().getId());
+        return instaFilesDAO.findByUserIdOOrderByIdDesc(userService.getAuthenticatedUser().getId());
     }
 
     private LikersResponse getLikersMedia(String mediaId) throws Exception {
