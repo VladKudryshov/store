@@ -55,4 +55,10 @@ public class ReportResponse {
     public void setPeopleInComment(Integer peopleInComment) {
         this.peopleInComment = peopleInComment;
     }
+
+    public String[] getRow() {
+        return new String[]{
+                username,fullName, comment, String.valueOf(isLiked), String.valueOf(isFollowed)
+        };
+    }
 }

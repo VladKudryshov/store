@@ -45,9 +45,9 @@ public class InstagramController {
     }
 
     @RequestMapping(value = "report", method = RequestMethod.GET)
-    public List<ReportResponse> getReport(@RequestParam String userId) {
+    public List<ReportResponse> getReport(@RequestParam String userId, @RequestParam String mediaId) {
         try {
-            return instragramService.getReport("2032713312453778187_10212391882", userId);
+            return instragramService.getReport(mediaId, userId);
         } catch (Exception e) {
             return null;
         }

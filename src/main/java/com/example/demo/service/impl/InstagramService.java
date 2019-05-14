@@ -9,9 +9,9 @@ import com.example.demo.instagramApi.models.response.*;
 import com.example.demo.instagramApi.requests.*;
 import com.example.demo.models.insta.InstaCookies;
 import com.example.demo.models.insta.InstaFiles;
-import com.example.demo.models.user.UserEntity;
 import com.example.demo.service.IInstagramService;
 import com.example.demo.service.IUserService;
+import com.example.demo.utils.FTPUtils;
 import com.example.demo.utils.XLSUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -20,7 +20,6 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +29,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.apache.xmlbeans.SchemaTypeLoaderException.IO_EXCEPTION;
 
 @Service
 public class InstagramService implements IInstagramService {
@@ -44,7 +41,6 @@ public class InstagramService implements IInstagramService {
 
     @Autowired
     InstaFilesDAO instaFilesDAO;
-
 
 
     @Override
@@ -109,19 +105,7 @@ public class InstagramService implements IInstagramService {
 
     public List<ReportResponse> getReport(String mediaId, String userId) throws Exception {
 
-        try (SXSSFWorkbook resultWorkbook = new SXSSFWorkbook(null, 500)) {
-            Sheet report = XLSUtils.createSheet(
-                    resultWorkbook,
-                    "report",
-                    new String[]{"Asd"});
-            XLSUtils.writeRow(report, new String[]{"Asd"});
-            resultWorkbook.write(new FileOutputStream("FileReport"+System.currentTimeMillis()+".xlsx"));
-        } catch (IOException e) {
-            System.out.println("Can't save to file");
-        }
-
-
-        /*InstaFiles instaFiles = new InstaFiles();
+        InstaFiles instaFiles = new InstaFiles();
         instaFiles.setFilename("File" + System.currentTimeMillis());
         instaFiles.setUserId(userService.getAuthenticatedUser().getId());
         instaFiles.setStatus("Pending");
@@ -137,7 +121,7 @@ public class InstagramService implements IInstagramService {
         CommentsResponse commetsMedia = getCommentsMedia(mediaId, StringUtils.EMPTY);
         String nextPage;
         System.out.println("Getted " + commetsMedia.getComments().size() + " comments");
-        while (StringUtils.isNotBlank(nextPage = commetsMedia.getNext_max_id())){
+        while (StringUtils.isNotBlank(nextPage = commetsMedia.getNext_max_id())) {
             commetsMedia = getCommentsMedia(mediaId, nextPage);
             comments.addAll(commetsMedia.getComments());
             System.out.println("Getted " + commetsMedia.getComments().size() + " comments");
@@ -147,7 +131,7 @@ public class InstagramService implements IInstagramService {
         }
         FollowersResponse userFollowers = getUserFollowers(userId, StringUtils.EMPTY);
         System.out.println("Getted " + userFollowers.getUsers().size() + " followers");
-        while (StringUtils.isNotBlank(nextPage = userFollowers.getNext_max_id())){
+        while (StringUtils.isNotBlank(nextPage = userFollowers.getNext_max_id())) {
             followers.addAll(userFollowers.getUsers());
             userFollowers = getUserFollowers(userId, nextPage);
             System.out.println("Getted " + userFollowers.getUsers().size() + " followers");
@@ -157,7 +141,7 @@ public class InstagramService implements IInstagramService {
         List<ReportResponse> reports = Lists.newLinkedList();
         comments.forEach(comment -> {
             Optional<User> follower = followers.stream().filter(f -> f.getPk().equals(comment.getUser_id())).findFirst();
-            if(follower.isPresent()){
+            if (follower.isPresent()) {
                 ReportResponse reportResponse = new ReportResponse();
                 User user = follower.get();
                 boolean isLiked = likers.contains(user);
@@ -170,12 +154,24 @@ public class InstagramService implements IInstagramService {
             }
         });
 
+        String pathname = "FileReport" + System.currentTimeMillis() + ".xlsx";
+        try (SXSSFWorkbook resultWorkbook = new SXSSFWorkbook(null, 500)) {
+            Sheet report = XLSUtils.createSheet(
+                    resultWorkbook,
+                    "report",
+                    new String[]{"User Name", "Full Name", "Comment", "Liked", "Followed"});
+            reports.forEach(item -> XLSUtils.writeRow(report, item.getRow()));
+            resultWorkbook.write(new FileOutputStream(pathname));
+        } catch (IOException e) {
+            System.out.println("Can't save to file");
+        }
+
+        FTPUtils.share(new File(pathname));
+
         save.setStatus("Done");
+        save.setUrl("84.201.155.169/" + pathname);
         instaFilesDAO.save(save);
 
-
-
-*/
         return Lists.newArrayList();
     }
 
