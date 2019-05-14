@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -109,6 +110,7 @@ public class InstagramService implements IInstagramService {
         instaFiles.setFilename("File" + System.currentTimeMillis());
         instaFiles.setUserId(userService.getAuthenticatedUser().getId());
         instaFiles.setStatus("Pending");
+        instaFiles.setDate(new Date());
         InstaFiles save = instaFilesDAO.save(instaFiles);
 
         Set<User> followers = Sets.newConcurrentHashSet();
@@ -177,7 +179,7 @@ public class InstagramService implements IInstagramService {
 
     @Override
     public List<InstaFiles> getReports() {
-        return instaFilesDAO.findByUserIdOrderByIdDesc(userService.getAuthenticatedUser().getId());
+        return instaFilesDAO.findByUserIdOrderByDateDesc(userService.getAuthenticatedUser().getId());
     }
 
     private LikersResponse getLikersMedia(String mediaId) throws Exception {
