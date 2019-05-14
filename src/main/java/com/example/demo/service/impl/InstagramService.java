@@ -171,7 +171,7 @@ public class InstagramService implements IInstagramService {
         FTPUtils.share(new File(pathname));
 
         save.setStatus("Done");
-        save.setUrl("84.201.155.169/files/" + pathname);
+        save.setUrl("/files/" + pathname);
         instaFilesDAO.save(save);
 
         return Lists.newArrayList();
