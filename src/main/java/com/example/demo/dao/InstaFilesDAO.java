@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface InstaFilesDAO extends JpaRepository<InstaFiles, String> {
-    List<InstaFiles> findByUserIdOOrderByIdDesc(String s);
+    List<InstaFiles> findByUserIdOrderByIdDesc(String s);
 }

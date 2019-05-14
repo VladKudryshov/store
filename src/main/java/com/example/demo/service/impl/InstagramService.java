@@ -177,7 +177,7 @@ public class InstagramService implements IInstagramService {
 
     @Override
     public List<InstaFiles> getReports() {
-        return instaFilesDAO.findByUserIdOOrderByIdDesc(userService.getAuthenticatedUser().getId());
+        return instaFilesDAO.findByUserIdOrderByIdDesc(userService.getAuthenticatedUser().getId());
     }
 
     private LikersResponse getLikersMedia(String mediaId) throws Exception {
