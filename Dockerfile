@@ -11,7 +11,7 @@ WORKDIR /opt/server
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/demo-0.0.1-SNAPSHOT.jar /opt/server/demo-0.0.1-SNAPSHOT.jar
 
 
-ENV DB_CONNECTION=jdbc:postgresql://10.129.0.30:5432/postgres
+ENV DB_CONNECTION=jdbc:postgresql://10.129.0.28:5432/postgres
 ENV DB_USER=postgres
 ENV DB_PASSWORD=1
 

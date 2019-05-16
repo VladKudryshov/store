@@ -14,7 +14,7 @@ public class FTPUtils {
     public static void share(File file) {
 
         try {
-            client.connect("84.201.155.169", 21);
+            client.connect("84.201.163.192", 21);
             client.login("reports", "1");
             client.enterLocalPassiveMode();
             client.setFileType(FTP.BINARY_FILE_TYPE);
