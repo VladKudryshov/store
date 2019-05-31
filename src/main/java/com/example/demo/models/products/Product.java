@@ -18,6 +18,7 @@ public class Product {
     private String name;
     private String category;
     private Double price;
+    private String image;
 
     public Integer getId() {
         return id;
@@ -49,6 +50,14 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void validate() {
