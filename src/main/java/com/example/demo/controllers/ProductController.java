@@ -28,7 +28,7 @@ public class ProductController {
         return productService.getProducts(new PageRequest(page, size));
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "cart", method = RequestMethod.POST)
     public List<Product> getProductsByIds(@RequestBody Set<Integer> ids) {
         return productService.getProductsByIds(ids);
     }
