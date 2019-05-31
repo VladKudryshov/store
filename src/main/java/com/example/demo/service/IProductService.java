@@ -16,6 +16,8 @@ public interface IProductService {
 
     void getProductsByNames(Set<String> names, Consumer<List<Product>> consumer);
 
+    List<Product> getProductsByIds(Set<Integer> ids);
+
     Page<Product> getProducts(Pageable pageable);
 
     void create(Product product);
