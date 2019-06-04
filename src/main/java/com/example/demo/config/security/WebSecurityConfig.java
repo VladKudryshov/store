@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/products/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/orders").permitAll()
-                    .antMatchers("/api/**").authenticated()
+                    .antMatchers("/api/**").permitAll()
                     .and()
                     .addFilterBefore(new JWTAuthenticationFilter(authenticationService, userRepo), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(new JWTRefreshFilter("/api/users/token", authenticationService, userRepo), JWTAuthenticationFilter.class)
