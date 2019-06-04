@@ -16,3 +16,12 @@ sudo docker stop order-back
 sudo docker rm -f order-back
 sudo docker build -t order-back .
 sudo docker run --name order-back -d -p 8080:8080 order-back
+
+
+cd
+cd ..
+cd ../home/kudr9tov/projects/insta
+git pull
+npm run build
+mv build/* /opt/server/nginx/html
+
