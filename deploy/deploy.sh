@@ -23,4 +23,5 @@ npm run build
 rm -rf /opt/server/nginx/html/
 mkdir /opt/server/nginx/html
 mv build/* /opt/server/nginx/html
+docker restart server-nginx
 
