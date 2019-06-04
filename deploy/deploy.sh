@@ -24,6 +24,6 @@ cd ../home/kudr9tov/projects/insta
 git pull
 npm run build
 
-rm -rf /opt/server/nginx/html
+rm -rf /opt/server/nginx/html/
 mv build/* /opt/server/nginx/html
 
