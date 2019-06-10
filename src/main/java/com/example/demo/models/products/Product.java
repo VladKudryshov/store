@@ -19,6 +19,7 @@ public class Product {
     private String category;
     private Double price;
     private String image;
+    private String discount;
 
     public Integer getId() {
         return id;
@@ -58,6 +59,14 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
     public void validate() {
