@@ -3,7 +3,6 @@ package com.example.demo.models.products;
 
 import com.example.demo.exceptions.product.InvalidProductException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +12,15 @@ import javax.persistence.Id;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private String name;
     private String category;
     private Double price;
     private String image;
-    private String discount;
+    private Integer discount;
+    private String unitName;
+    private Integer unitNumber;
 
     public Integer getId() {
         return id;
@@ -61,16 +62,32 @@ public class Product {
         this.image = image;
     }
 
-    public String getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public Integer getUnitNumber() {
+        return unitNumber;
+    }
+
+    public void setUnitNumber(Integer unitNumber) {
+        this.unitNumber = unitNumber;
+    }
+
     public void validate() {
-        if(StringUtils.isBlank(name)) throw new InvalidProductException("Invalid name");
-        if(price < 0) throw new InvalidProductException("Invalid price");
+        if (StringUtils.isBlank(name)) throw new InvalidProductException("Invalid name");
+        if (price < 0) throw new InvalidProductException("Invalid price");
     }
 }
