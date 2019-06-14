@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 public class Product {
@@ -89,5 +91,9 @@ public class Product {
     public void validate() {
         if (StringUtils.isBlank(name)) throw new InvalidProductException("Invalid name");
         if (price < 0) throw new InvalidProductException("Invalid price");
+    }
+
+    public Double getPriceWithDiscount(){
+        return getPrice() / 100 * (100 - getDiscount());
     }
 }
