@@ -51,7 +51,7 @@ public class OrderService implements IOrderService {
     public OrderView getUserOrderById(Integer id) {
         String userId = userService.getAuthenticatedUser().getId();
         Order order = orderDAO.findOrderByIdAndUserId(id, userId);
-        OrderContact orderContact = orderContactDAO.getOne(order.getOrderContactId());
+        OrderContact orderContact = orderContactDAO.findOne(order.getOrderContactId());
         List<OrderDetails> orderDetails = orderDetailsDAO.findOrderDetailsByOrderId(id);
 
         Map<Integer, List<OrderDetails>> collect = orderDetails.stream().collect(Collectors.groupingBy(OrderDetails::getProductId));
@@ -66,9 +66,12 @@ public class OrderService implements IOrderService {
                 .map(f -> {
                     ProductOrder productOrder = new ProductOrder();
                     productOrder.setId(f.getId());
+                    productOrder.setImage(f.getImage());
+                    productOrder.setName(f.getName());
+                    productOrder.setCategory(f.getCategory());
+                    productOrder.setPrice(f.getPrice());
+                    productOrder.setDiscount(f.getDiscount());
 
-                    productOrder.setId(f.getDiscount());
-                    productOrder.setId(f.getId());
                     OrderDetails details = collect.get(f.getId()).get(0);
                     productOrder.setQuantity(details.getQuantity());
                     productOrder.setTotalPrice(details.getTotalPrice());
