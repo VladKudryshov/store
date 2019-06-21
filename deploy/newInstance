@@ -10,16 +10,14 @@ sudo apt-get install docker-ce
 mkdir /opt/server
 mkdir /opt/server/nginx/html/files
 chmod -R 777 /opt/server
-mkdir /home/kudr9tov/projects
+mkdir /home/projects
 
 sudo apt-get install mc
 
 git clone https://github.com/VladKudryshov/store.git
 
 
-sudo apt-get install curl python-software-properties
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-sudo apt-get install -y nodejs
+pws
 
 git clone https://github.com/VladKudryshov/insta
 npm install
