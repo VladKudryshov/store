@@ -18,6 +18,7 @@ public class Order {
     private Date created = new Date();
     private Date updated = new Date();
     private String status;
+    private Double cost;
 
     public Integer getId() {
         return id;
@@ -65,5 +66,13 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 }
