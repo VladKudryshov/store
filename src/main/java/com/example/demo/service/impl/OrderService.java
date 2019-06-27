@@ -79,6 +79,7 @@ public class OrderService implements IOrderService {
                 })
                 .collect(Collectors.toList());
         orderView.setProductOrder(collect1);
+        orderView.setOrderStatus(order.getStatus());
         orderView.setTotalPrice(collect1.stream().mapToDouble(ProductOrder::getTotalPrice).sum());
         return orderView;
     }

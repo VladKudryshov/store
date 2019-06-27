@@ -5,6 +5,7 @@ import java.util.List;
 public class OrderView {
     private OrderContact orderContact;
     private List<ProductOrder> productOrder;
+    private String orderStatus;
     private Double totalPrice;
 
     public OrderContact getOrderContact() {
@@ -21,6 +22,14 @@ public class OrderView {
 
     public void setProductOrder(List<ProductOrder> productOrder) {
         this.productOrder = productOrder;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Double getTotalPrice() {
