@@ -1,10 +1,12 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dao.IOrderContactDAO;
 import com.example.demo.dao.IUserDAO;
 import com.example.demo.dao.IUserInfoDAO;
 import com.example.demo.exceptions.user.UserAlreadyExistException;
 import com.example.demo.exceptions.user.UserNotAuthenticated;
 import com.example.demo.exceptions.user.UserNotFoundException;
+import com.example.demo.models.orders.OrderContact;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.models.user.UserInfo;
 import com.example.demo.service.IUserService;
@@ -24,6 +26,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserInfoDAO userInfoDAO;
+
+    @Autowired
+    private IOrderContactDAO orderContactDAO;
 
     @Override
     public void createUser(UserEntity userEntity) {
@@ -67,6 +72,12 @@ public class UserService implements IUserService {
     @Override
     public UserInfo getUserInfoById(String id) {
         return userInfoDAO.findByUserId(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public List<OrderContact> getUserContacts() {
+        String userId = getAuthenticatedUser().getId();
+        return orderContactDAO.findOrderContactsByUserId(userId);
     }
 
     public UserEntity getUserByEmail(String email) {

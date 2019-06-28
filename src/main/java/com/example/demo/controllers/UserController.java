@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.orders.OrderContact;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.models.user.UserInfo;
 import com.example.demo.models.user.UserLogin;
@@ -45,6 +46,11 @@ public class UserController {
     @RequestMapping(value = "info/{id}", method = RequestMethod.GET)
     public UserInfo getUserInfo(@PathVariable String id) {
         return userService.getUserInfoById(id);
+    }
+
+    @RequestMapping(value = "contacts", method = RequestMethod.GET)
+    public List<OrderContact> getUserContacts() {
+        return userService.getUserContacts();
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)

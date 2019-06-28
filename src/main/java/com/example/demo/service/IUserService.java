@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.models.orders.OrderContact;
 import com.example.demo.models.user.UserEntity;
 import com.example.demo.models.user.UserInfo;
 
@@ -19,4 +20,6 @@ public interface IUserService {
     List<UserEntity> getUsers();
 
     UserInfo getUserInfoById(String id);
+
+    List<OrderContact> getUserContacts();
 }
