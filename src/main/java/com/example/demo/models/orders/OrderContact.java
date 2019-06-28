@@ -21,6 +21,7 @@ public class OrderContact {
     private String street;
     private String house;
     private String flat;
+    private Boolean isDefault;
 
     public Integer getId() {
         return id;
@@ -92,5 +93,13 @@ public class OrderContact {
 
     public void setFlat(String flat) {
         this.flat = flat;
+    }
+
+    public Boolean getDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(Boolean aDefault) {
+        isDefault = aDefault;
     }
 }
