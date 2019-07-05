@@ -18,6 +18,7 @@ public class UserInfo {
     private String sex;
     private Date birthday;
     private Long phone;
+    private String image;
 
     public Integer getId() {
         return id;
@@ -73,5 +74,13 @@ public class UserInfo {
 
     public void setPhone(Long phone) {
         this.phone = phone;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
