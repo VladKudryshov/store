@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BlogService implements IBlogService {
 
@@ -17,32 +19,36 @@ public class BlogService implements IBlogService {
 
     @Override
     public Post getPost(Integer id) {
-        return blogDAO.findOne(id);
+        return null;
+    }
+
+    @Override
+    public List<Post> getAllShortPosts() {
+        return blogDAO.getAllShortPosts();
     }
 
     @Override
     public Page<Story> getStory(Pageable pageable) {
-        Page<Post> posts = blogDAO.findAll(pageable);
-        return posts.map(Story::new);
+        return null;
     }
 
     @Override
     public Page<Post> getPostPage(Pageable pageable) {
-        return blogDAO.findAll(pageable);
+        return null;
     }
 
     @Override
     public void create(Post post) {
-        blogDAO.save(post);
+
     }
 
     @Override
     public Post updatePost(Post post) {
-        return blogDAO.save(post);
+        return null;
     }
 
     @Override
     public void delete(Integer id) {
-        blogDAO.delete(id);
+
     }
 }

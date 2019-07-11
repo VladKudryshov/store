@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200/")
 @RequestMapping(value = "api/blog")
@@ -21,8 +23,8 @@ public class BlogController {
     private IBlogService blogService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Page<Post> getPostPage(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "3") Integer size) {
-        return blogService.getPostPage(new PageRequest(page, size));
+    public List<Post> getPostPage() {
+        return blogService.getAllShortPosts();
     }
 
     @RequestMapping(value = "stories", method = RequestMethod.GET)
