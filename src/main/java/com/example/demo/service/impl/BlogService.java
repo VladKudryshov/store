@@ -19,7 +19,7 @@ public class BlogService implements IBlogService {
 
     @Override
     public Post getPost(Integer id) {
-        return null;
+        return blogDAO.getPostById(id);
     }
 
     @Override
