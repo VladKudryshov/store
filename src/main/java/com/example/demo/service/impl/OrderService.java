@@ -59,7 +59,6 @@ public class OrderService implements IOrderService {
                 "INNER JOIN orders rd ON od.order_id = rd.id " +
                 "INNER JOIN order_contacts oc ON rd.order_contact_id = oc.id " +
                 "GROUP BY 1,2,3,4,5,6,7", (resultSet, i) -> {
-
             OrderTableView orderTableView = new OrderTableView();
             orderTableView.setOrderId(resultSet.getInt("id"));
             orderTableView.setUserName(resultSet.getString("user_name"));
@@ -67,6 +66,7 @@ public class OrderService implements IOrderService {
             orderTableView.setCreated(resultSet.getDate("created"));
             orderTableView.setUpdated(resultSet.getDate("updated"));
             orderTableView.setCost(resultSet.getDouble("cost"));
+            orderTableView.setStatus(resultSet.getString("status"));
             orderTableView.setProductsCount(resultSet.getInt("products_count"));
             return orderTableView;
         });
