@@ -54,10 +54,11 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<OrderTableView> getSimpleOrders() {
-        return jdbcTemplate.query("SELECT rd.id, user_name, user_second_name, created, updated, status, cost " +
-                "from order_details od " +
+        return jdbcTemplate.query("SELECT rd.id, user_name, user_second_name, created, updated, status, cost, count(od.id) products_count " +
+                "FROM order_details od " +
                 "INNER JOIN orders rd ON od.order_id = rd.id " +
-                "INNER JOIN order_contacts oc ON rd.order_contact_id = oc.id", (resultSet, i) -> {
+                "INNER JOIN order_contacts oc ON rd.order_contact_id = oc.id " +
+                "GROUP BY 1,2,3,4,5,6,7", (resultSet, i) -> {
             OrderTableView orderTableView = new OrderTableView();
             orderTableView.setOrderId(resultSet.getInt("id"));
             orderTableView.setUserName(resultSet.getString("user_name"));
