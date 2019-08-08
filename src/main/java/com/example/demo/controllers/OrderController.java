@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.exceptions.address.InvalidAddressException;
 import com.example.demo.models.orders.Order;
 import com.example.demo.models.orders.OrderDTO;
+import com.example.demo.models.orders.OrderTableView;
 import com.example.demo.models.orders.OrderView;
 import com.example.demo.models.user.Address;
 import com.example.demo.service.IAddressService;
@@ -34,6 +35,11 @@ public class OrderController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<Order> getUserOrders() {
         return orderService.getUserOrders();
+    }
+
+    @RequestMapping(value = "table", method = RequestMethod.GET)
+    public List<OrderTableView> getOrdersSimpleList() {
+        return orderService.getSimpleOrders();
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)

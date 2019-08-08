@@ -7,6 +7,7 @@ import com.example.demo.models.orders.Order;
 import com.example.demo.models.orders.OrderContact;
 import com.example.demo.models.orders.OrderDTO;
 import com.example.demo.models.orders.OrderDetails;
+import com.example.demo.models.orders.OrderTableView;
 import com.example.demo.models.orders.OrderView;
 import com.example.demo.models.orders.ProductOrder;
 import com.example.demo.models.orders.ProductQuantity;
@@ -15,6 +16,7 @@ import com.example.demo.service.IOrderService;
 import com.example.demo.service.IProductService;
 import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,10 +43,31 @@ public class OrderService implements IOrderService {
     @Autowired
     IProductService productService;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     @Override
     public List<Order> getUserOrders() {
         String userId = userService.getAuthenticatedUser().getId();
         return orderDAO.findAllByUserId(userId);
+    }
+
+    @Override
+    public List<OrderTableView> getSimpleOrders() {
+        return jdbcTemplate.query("SELECT rd.id, user_name, user_second_name, created, updated, status, cost " +
+                "from order_details od " +
+                "INNER JOIN orders rd ON od.order_id = rd.id " +
+                "INNER JOIN order_contacts oc ON rd.order_contact_id = oc.id", (resultSet, i) -> {
+            OrderTableView orderTableView = new OrderTableView();
+            orderTableView.setOrderId(resultSet.getInt("id"));
+            orderTableView.setUserName(resultSet.getString("user_name"));
+            orderTableView.setUserSecondName(resultSet.getString("user_second_name"));
+            orderTableView.setCreated(resultSet.getDate("created"));
+            orderTableView.setUpdated(resultSet.getDate("updated"));
+            orderTableView.setCost(resultSet.getDouble("cost"));
+            orderTableView.setProductsCount(resultSet.getInt("products_count"));
+            return orderTableView;
+        });
     }
 
     @Override
@@ -93,20 +116,17 @@ public class OrderService implements IOrderService {
         OrderContact tempOrderContact = dto.getOrderContact();
         tempOrderContact.setUserId(userId);
 
-        OrderContact orderContact = orderContactDAO.findOrderContactByIdAndUserId(tempOrderContact.getId(), userId).orElse(orderContactDAO.save(tempOrderContact));
+        OrderContact orderContact = orderContactDAO.findOrderContactByIdAndUserId(tempOrderContact.getId(), userId)
+                .orElse(orderContactDAO.save(tempOrderContact));
 
-        Order order = new Order();
-        order.setOrderContactId(orderContact.getId());
-        order.setUserId(userId);
-        order.setStatus("PENDING");
-        Order save = orderDAO.save(order);
+        Order order = orderDAO.save(new Order());
 
         List<OrderDetails> orderDetails = productService.getProductsByIds(pr.keySet())
                 .stream()
                 .map(f -> {
                     OrderDetails orderDetail = new OrderDetails();
                     orderDetail.setProductId(f.getId());
-                    orderDetail.setOrderId(save.getId());
+                    orderDetail.setOrderId(order.getId());
                     Double quantity = pr.get(f.getId());
                     orderDetail.setQuantity(quantity);
                     orderDetail.setTotalPrice(f.getPriceWithDiscount() * quantity);
@@ -114,7 +134,13 @@ public class OrderService implements IOrderService {
                 })
                 .collect(Collectors.toList());
         orderDetailsDAO.save(orderDetails);
+        double sum = orderDetails.stream().mapToDouble(OrderDetails::getTotalPrice).sum();
 
+        order.setOrderContactId(orderContact.getId());
+        order.setUserId(userId);
+        order.setStatus("PENDING");
+        order.setCost(sum);
+        orderDAO.save(order);
     }
 
 }
