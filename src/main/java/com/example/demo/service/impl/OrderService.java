@@ -59,7 +59,7 @@ public class OrderService implements IOrderService {
                 "INNER JOIN orders rd ON od.order_id = rd.id " +
                 "INNER JOIN order_contacts oc ON rd.order_contact_id = oc.id " +
                 "GROUP BY 1,2,3,4,5,6,7 " +
-                "ORDER BY 4", (resultSet, i) -> {
+                "ORDER BY 5,4 DESC ", (resultSet, i) -> {
             OrderTableView orderTableView = new OrderTableView();
             orderTableView.setOrderId(resultSet.getInt("id"));
             orderTableView.setUserName(resultSet.getString("user_name"));
