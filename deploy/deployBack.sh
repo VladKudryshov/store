@@ -8,7 +8,7 @@ git pull
 sudo docker stop platform
 sudo docker rm -f platform
 sudo docker build -t platform .
-sudo docker run --name platform -d -p 8080:8080 platform
+sudo docker run --name platform -d -p 8080:8080 -v /opt/server/nginx/html/files:/opt/server/temp platform
 
 
 
