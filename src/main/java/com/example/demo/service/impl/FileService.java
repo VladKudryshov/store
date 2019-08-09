@@ -17,7 +17,7 @@ public class FileService implements IFileService {
     public String uploadFile(MultipartFile file) {
         try {
             String fileName = RandomStringUtils.randomAlphanumeric(5) + "_" + file.getOriginalFilename();
-            Path path = Paths.get("/opt/server/temp" + fileName);
+            Path path = Paths.get("/opt/server/temp/" + fileName);
             Files.copy(file.getInputStream(), path);
             return fileName;
         } catch (IOException e) {

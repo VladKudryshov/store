@@ -20,6 +20,6 @@ public class FileControllerController {
     @PostMapping(value = "upload")
     public String uploadFiles(@RequestParam("file") MultipartFile uploadFile) {
         String fileName = fileService.uploadFile(uploadFile);
-        return String.format("http://165.22.89.115/files%s", fileName);
+        return String.format("http://165.22.89.115/files/%s", fileName);
     }
 }
