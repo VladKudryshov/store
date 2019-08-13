@@ -19,7 +19,7 @@ public class FileService implements IFileService {
 
         try {
             ftpClient = new FTPClient();
-            ftpClient.connect("http://165.22.89.115");
+            ftpClient.connect("165.22.89.115", 21);
             ftpClient.login("reports", "1");
             String fileName = RandomStringUtils.randomAlphanumeric(5) + "_" + file.getOriginalFilename();
             shareFileToFTP(file, fileName);
