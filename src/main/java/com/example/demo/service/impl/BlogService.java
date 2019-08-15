@@ -49,6 +49,6 @@ public class BlogService implements IBlogService {
 
     @Override
     public void delete(Integer id) {
-
+        blogDAO.removeById(id);
     }
 }

@@ -8,4 +8,6 @@ public interface IBlogDAO {
     List<Post> getAllShortPosts();
 
     Post getPostById(Integer id);
+
+    void removeById(Integer id);
 }

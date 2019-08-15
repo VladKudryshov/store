@@ -37,7 +37,16 @@ public class BlogDAO implements IBlogDAO {
                         " from post p" +
                         " INNER JOIN matching_statistic ms ON p.id = ms.obj_id AND ms.type = 'POST'" +
                         " LEFT JOIN statistic s ON s.id = ms.matching_id" +
-                        " WHERE p.id = :id",params, (resultSet, i) -> transformPost(resultSet));
+                        " WHERE p.id = :id", params, (resultSet, i) -> transformPost(resultSet));
+    }
+
+    @Override
+    public void removeById(Integer id) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("id", id);
+        namedParameterJdbcTemplate
+                .update("DELETE FROM post p" +
+                        " WHERE p.id = :id", params);
     }
 
     private Post transformPost(ResultSet resultSet) throws SQLException {
