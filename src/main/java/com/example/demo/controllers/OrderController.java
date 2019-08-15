@@ -47,6 +47,11 @@ public class OrderController {
         return orderService.getUserOrderById(id);
     }
 
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public void deleteOrderById(@PathVariable Integer id) {
+        orderService.deleteOrderById(id);
+    }
+
     @ExceptionHandler
     public String handleValidateExceptions(InvalidAddressException ex){
         return ex.getMessage();

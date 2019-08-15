@@ -146,4 +146,9 @@ public class OrderService implements IOrderService {
         orderDAO.save(order);
     }
 
+
+    @Override
+    public void deleteOrderById(Integer id) {
+        orderDAO.delete(id);
+    }
 }

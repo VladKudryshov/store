@@ -16,4 +16,5 @@ public interface IOrderService {
 
     List<OrderTableView> getSimpleOrders();
 
+    void deleteOrderById(Integer id);
 }
