@@ -4,18 +4,18 @@ import java.util.Date;
 
 public class MessageDTO {
 
-    private String toUser;
+    private String fromUser;
     private Integer orderId;
     private String message;
     private Object attachments;
-    private Date date;
+    private Date date = new Date();
 
-    public String getToUser() {
-        return toUser;
+    public String getFromUser() {
+        return fromUser;
     }
 
-    public void setToUser(String toUser) {
-        this.toUser = toUser;
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
     }
 
     public Integer getOrderId() {

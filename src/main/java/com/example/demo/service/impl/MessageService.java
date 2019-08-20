@@ -48,7 +48,7 @@ public class MessageService implements IMessageService {
 
     @Override
     public List<Message> getUserOrderMessages(Integer orderId) {
-        return null;
+        return messageDAO.findAllByOrderId(orderId);
     }
 
     @Override
@@ -65,11 +65,10 @@ public class MessageService implements IMessageService {
         Order order = orderDAO.findOne(orderId);
         if(Objects.nonNull(order)){
             String toUserId = order.getUserId();
-            String fromUserId = userService.getAuthenticatedUser().getId();
             Message msg = new Message();
             msg.setDate(new Date());
             msg.setToUser(toUserId);
-            msg.setFromUser(fromUserId);
+            msg.setFromUser(dto.getFromUser());
             msg.setOrderId(orderId);
             msg.setMessage(dto.getMessage());
             messageDAO.save(msg);

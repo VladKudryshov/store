@@ -20,7 +20,7 @@ public interface IProductService {
 
     Page<Product> getProducts(Pageable pageable);
 
-    void create(Product product);
+    Product create(Product product);
 
     void update(Product product);
 

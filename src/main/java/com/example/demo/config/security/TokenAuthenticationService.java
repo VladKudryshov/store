@@ -4,6 +4,7 @@ import com.example.demo.models.user.UserEntity;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,8 +32,13 @@ public class TokenAuthenticationService {
 
     public Authentication getAccessAuthentication(ServletRequest request) {
         String token = ((HttpServletRequest) request).getHeader(Tokens.ACCESS_TOKEN.getHeader());
-        Authentication auth = parseToken(token, Tokens.ACCESS_TOKEN.getType());
-        return auth;
+        return parseToken(token, Tokens.ACCESS_TOKEN.getType());
+    }
+
+    public Authentication getAccessAuthenticationWebSocket(ServletRequest request) {
+//        MessageHeaderAccessor.getAccessor(new )
+        String token = ((HttpServletRequest) request).getHeader(Tokens.ACCESS_TOKEN.getHeader());
+        return parseToken(token, Tokens.ACCESS_TOKEN.getType());
     }
 
     public Authentication getRefreshAuthentication(ServletRequest request) {

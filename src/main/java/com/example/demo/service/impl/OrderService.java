@@ -149,6 +149,6 @@ public class OrderService implements IOrderService {
 
     @Override
     public void deleteOrderById(Integer id) {
-        orderDAO.delete(id);
+       orderDAO.delete(id);
     }
 }

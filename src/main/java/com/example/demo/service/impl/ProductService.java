@@ -22,6 +22,9 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductDAO productDAO;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public Product getProduct(Integer id) {
         return productDAO.findOne(id);
@@ -48,13 +51,13 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void create(Product product) {
+    public Product create(Product product) {
         Optional<Product> temp = productDAO.findByName(product.getName());
         if (temp.isPresent()) {
             throw new ProductAlreadyExistException();
         }
         product.validate();
-        productDAO.save(product);
+        return productDAO.save(product);
     }
 
     @Override

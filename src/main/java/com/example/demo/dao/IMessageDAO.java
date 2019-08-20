@@ -12,4 +12,6 @@ public interface IMessageDAO extends JpaRepository<Message, Integer> {
     List<Message> findAllByFromUserAndToUserAndOrderId(String fromUserId, String toUserId, Integer orderId);
 
     List<Message> findAllByFromUserAndToUser(String fromUserId, String toUserId);
+
+    List<Message> findAllByOrderId(Integer orderId);
 }

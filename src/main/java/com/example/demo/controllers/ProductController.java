@@ -6,8 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +20,7 @@ public class ProductController {
 
     @Autowired
     IProductService productService;
+
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<Product> getAllProducts(@RequestParam(defaultValue = "0") Integer page,
@@ -35,7 +39,7 @@ public class ProductController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void saveProduct(@RequestBody Product product) {
-        productService.create(product);
+        Product created = productService.create(product);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
