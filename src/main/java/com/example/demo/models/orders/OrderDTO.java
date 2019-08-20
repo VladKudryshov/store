@@ -3,22 +3,22 @@ package com.example.demo.models.orders;
 import java.util.List;
 
 public class OrderDTO {
-    private List<ProductQuantity> basketProducts;
-    private OrderContact orderContact;
+    private List<ProductQuantity> basket;
+    private OrderContact contact;
 
-    public List<ProductQuantity> getBasketProducts() {
-        return basketProducts;
+    public List<ProductQuantity> getBasket() {
+        return basket;
     }
 
-    public void setBasketProducts(List<ProductQuantity> basketProducts) {
-        this.basketProducts = basketProducts;
+    public void setBasket(List<ProductQuantity> basket) {
+        this.basket = basket;
     }
 
-    public OrderContact getOrderContact() {
-        return orderContact;
+    public OrderContact getContact() {
+        return contact;
     }
 
-    public void setOrderContact(OrderContact orderContact) {
-        this.orderContact = orderContact;
+    public void setContact(OrderContact contact) {
+        this.contact = contact;
     }
 }

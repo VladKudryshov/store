@@ -114,9 +114,9 @@ public class OrderService implements IOrderService {
     @Transactional
     public void createOrder(OrderDTO dto) {
         String userId = userService.getAuthenticatedUser().getId();
-        Map<Integer, Double> pr = dto.getBasketProducts().stream().collect(Collectors.toMap(ProductQuantity::getId, ProductQuantity::getQuantity));
+        Map<Integer, Double> pr = dto.getBasket().stream().collect(Collectors.toMap(ProductQuantity::getId, ProductQuantity::getQuantity));
 
-        OrderContact tempOrderContact = dto.getOrderContact();
+        OrderContact tempOrderContact = dto.getContact();
         tempOrderContact.setUserId(userId);
 
         OrderContact orderContact = orderContactDAO.findOrderContactByIdAndUserId(tempOrderContact.getId(), userId)
