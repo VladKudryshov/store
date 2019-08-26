@@ -24,7 +24,7 @@ public class ProductController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<Product> getAllProducts(@RequestParam(defaultValue = "0") Integer page,
-                                        @RequestParam(defaultValue = "2") Integer size,
+                                        @RequestParam(defaultValue = "20") Integer size,
                                         @RequestParam(defaultValue = StringUtils.EMPTY) String category) {
         if(StringUtils.isNotBlank(category)){
             return productService.getProductByCategory(category, new PageRequest(page, size));
